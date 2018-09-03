@@ -3,7 +3,6 @@ package br.com.ionic.api.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -13,9 +12,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.ionic.api.domain.Cliente;
 import br.com.ionic.api.domain.dto.ClienteDTO;
-import br.com.ionic.api.domain.enums.TipoCliente;
 import br.com.ionic.api.repository.ClienteRepository;
-import br.com.ionic.api.service.exception.DataViolationException;
 import br.com.ionic.api.service.exception.ObjectNotFoundException;
 
 @Service
