@@ -96,7 +96,7 @@ public class IonicBackendApplication implements CommandLineRunner {
 		this.estadoRepository.saveAll(Arrays.asList(est1, est2));
 		this.cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 
-		Cliente cli1 = new Cliente("Marina Silva", "marina@gmail.com", "06666666", TipoCliente.PESSOAFISICA);
+		Cliente cli1 = new Cliente(1 ,"Marina Silva", "marina@gmail.com", "06666666", TipoCliente.PESSOAFISICA);
 
 		cli1.getTelefones().addAll(Arrays.asList("06622640", "86659898"));
 

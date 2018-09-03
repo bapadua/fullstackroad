@@ -45,12 +45,13 @@ public class Cliente implements Serializable {
 	public Cliente() {
 	}
 
-	public Cliente(String nome, String email, String cpfOucnpj, TipoCliente tipo) {
+	public Cliente(Integer id, String nome, String email, String cpfOucnpj, TipoCliente tipo) {
 		super();
+		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.cpfOucnpj = cpfOucnpj;
-		this.tipoCliente = tipo.getCod();
+		this.tipoCliente =(tipo == null) ? null : tipo.getCod();
 	}
 
 	public List<Pedido> getPedidos() {
@@ -107,6 +108,10 @@ public class Cliente implements Serializable {
 
 	public void setTelefones(Set<String> telefones) {
 		this.telefones = telefones;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Integer getId() {
