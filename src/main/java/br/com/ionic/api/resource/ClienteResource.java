@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.ionic.api.domain.Cliente;	
 import br.com.ionic.api.domain.dto.ClienteDTO;
+import br.com.ionic.api.domain.dto.ClienteNewDTO;
 import br.com.ionic.api.service.ClienteService;
 
 @RestController
@@ -39,7 +40,7 @@ public class ClienteResource {
 	
 
 	@PostMapping
-	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO objDTO) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDTO) {
 		Cliente obj = this.clienteService.fromDTO(objDTO);
 		obj = this.clienteService.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();

@@ -24,10 +24,11 @@ public class Cidade implements Serializable{
 	
 	public Cidade() {}
 
-	public Cidade(String nome, Estado estado) {
+	public Cidade(Integer id, String nome, Estado estado) {
 		super();
 		this.nome = nome;
 		this.estado = estado;
+		this.id = id;
 	}
 
 	public String getNome() {

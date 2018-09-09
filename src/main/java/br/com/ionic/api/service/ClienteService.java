@@ -3,6 +3,9 @@ package br.com.ionic.api.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -10,15 +13,23 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import br.com.ionic.api.domain.Cidade;
 import br.com.ionic.api.domain.Cliente;
+import br.com.ionic.api.domain.Endereco;
 import br.com.ionic.api.domain.dto.ClienteDTO;
+import br.com.ionic.api.domain.dto.ClienteNewDTO;
+import br.com.ionic.api.domain.enums.TipoCliente;
 import br.com.ionic.api.repository.ClienteRepository;
+import br.com.ionic.api.repository.EnderecoRepository;
 import br.com.ionic.api.service.exception.ObjectNotFoundException;
 
 @Service
 public class ClienteService {
 	@Autowired
 	private ClienteRepository repository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepo;
 
 	public Cliente find(Integer id) {
 		Optional<Cliente> obj = repository.findById(id);
@@ -30,9 +41,12 @@ public class ClienteService {
 		return this.repository.findAll();
 	}
 
+	@Transactional
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
-		return this.repository.save(obj);
+		obj = this.repository.save(obj);
+		this.enderecoRepo.saveAll(obj.getEnderecos());
+		return obj;
 	}
 
 	public Cliente update(Cliente obj) {
@@ -61,7 +75,22 @@ public class ClienteService {
 		return this.repository.findAll(pageRequest);
 	}
 
-	public Cliente fromDTO(ClienteDTO objDTO) {
+	public Cliente fromDTO(@Valid ClienteNewDTO objDTO) {
+		
+		Cliente cli = new Cliente(null, objDTO.getNome(), objDTO.getEmail(), objDTO.getCpfOuCnpj(), TipoCliente.toEnum(objDTO.getTipo()));
+		Cidade cid = new Cidade(objDTO.getCidadeId(),  null, null);
+		Endereco end = new Endereco(objDTO.getLogrouro(), objDTO.getNumero(),objDTO.getComplemento(),objDTO.getBairro(),objDTO.getCep(),cli,cid);
+		cli.getEnderecos().add(end);
+		cli.getTelefones().add(objDTO.getTelefone1());
+		if(objDTO.getTelefone2() != null)
+			cli.getTelefones().add(objDTO.getTelefone2());
+		if(objDTO.getTelefone3() != null)
+			cli.getTelefones().add(objDTO.getTelefone3());
+		
+		return cli;
+	}
+	
+	public Cliente fromDTO(@Valid ClienteDTO objDTO) {
 		return new Cliente(objDTO.getId(), objDTO.getNome(), objDTO.getEmail(), null, null);
 	}
 

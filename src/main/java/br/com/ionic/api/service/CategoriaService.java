@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.ionic.api.domain.Categoria;
-import br.com.ionic.api.domain.Cliente;
 import br.com.ionic.api.domain.dto.CategoriaDTO;
 import br.com.ionic.api.repository.CategoriaRepository;
 import br.com.ionic.api.service.exception.DataViolationException;
