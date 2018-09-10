@@ -6,12 +6,19 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import br.com.ionic.api.domain.Cliente;
 import br.com.ionic.api.domain.dto.ClienteNewDTO;
 import br.com.ionic.api.domain.enums.TipoCliente;
+import br.com.ionic.api.repository.ClienteRepository;
 import br.com.ionic.api.resource.exception.FieldMessage;
 import br.com.ionic.api.service.validation.utils.BR;
 
 public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert, ClienteNewDTO>{
+	
+	@Autowired
+	private ClienteRepository cliente;
 	
 	@Override
 	public boolean isValid(ClienteNewDTO dto, ConstraintValidatorContext context) {
@@ -29,6 +36,10 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
 			list.add(new FieldMessage("cpfOuCnpj","CNPJ inválido"));
 		}
 		
+		Cliente aux = cliente.findByEmail(dto.getEmail());
+		if(aux != null) {
+			list.add(new FieldMessage("email","Email já existente"));
+		}
 		for(FieldMessage fm : list) {
 			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(fm.getMessage())
