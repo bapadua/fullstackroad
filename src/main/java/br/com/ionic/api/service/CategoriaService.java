@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import br.com.ionic.api.domain.Categoria;
 import br.com.ionic.api.domain.dto.CategoriaDTO;
 import br.com.ionic.api.repository.CategoriaRepository;
-import br.com.ionic.api.service.exception.DataViolationException;
+import br.com.ionic.api.service.exception.DataIntegrityException;
 import br.com.ionic.api.service.exception.ObjectNotFoundException;
 
 @Service
@@ -47,7 +47,7 @@ public class CategoriaService{
 		try {
 			this.repository.deleteById(id);;
 		} catch (ConstraintViolationException e) {
-			throw new DataViolationException("Não é possível excluir uma categoria que possui produtos");
+			throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos");
 		}
 	}
 	
