@@ -55,6 +55,7 @@ public class Pedido implements Serializable {
 		this.cliente = cliente;
 		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
+	
 
 	public double getValorTotal() {
 		double soma = 0.0;
