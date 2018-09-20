@@ -18,7 +18,7 @@ import br.com.ionic.api.domain.Cliente;
 import br.com.ionic.api.domain.Endereco;
 import br.com.ionic.api.domain.dto.ClienteDTO;
 import br.com.ionic.api.domain.dto.ClienteNewDTO;
-import br.com.ionic.api.domain.enums.TipoCliente;
+import br.com.ionic.api.domain.enums.Perfil;
 import br.com.ionic.api.repository.ClienteRepository;
 import br.com.ionic.api.repository.EnderecoRepository;
 import br.com.ionic.api.service.exception.ObjectNotFoundException;
@@ -77,9 +77,9 @@ public class ClienteService {
 
 	public Cliente fromDTO(@Valid ClienteNewDTO objDTO) {
 		
-		Cliente cli = new Cliente(null, objDTO.getNome(), objDTO.getEmail(), objDTO.getCpfOuCnpj(), TipoCliente.toEnum(objDTO.getTipo()));
+		Cliente cli = new Cliente(null, objDTO.getNome(), objDTO.getEmail(), objDTO.getCpfOuCnpj(), null);
 		Cidade cid = new Cidade(objDTO.getCidadeId(),  null, null);
-		Endereco end = new Endereco(objDTO.getLogradouro(), objDTO.getNumero(),objDTO.getComplemento(),objDTO.getBairro(),objDTO.getCep(),cli,cid);
+		Endereco end = new Endereco(null, objDTO.getLogradouro(), objDTO.getNumero(),objDTO.getComplemento(),objDTO.getBairro(),objDTO.getCep(),cli,cid);
 		cli.getEnderecos().add(end);
 		cli.getTelefones().add(objDTO.getTelefone1());
 		if(objDTO.getTelefone2() != null)

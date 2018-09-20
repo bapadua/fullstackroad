@@ -16,45 +16,45 @@ public class Endereco implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String logradouro;
 	private String numero;
 	private String complemento;
 	private String bairro;
 	private String cep;
-
-	
-	@ManyToOne
-	@JoinColumn(name = "cidade_id")
-	private Cidade cidade;
 	
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "cliente_id")
+	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
-
+	
+	@ManyToOne
+	@JoinColumn(name="cidade_id")
+	private Cidade cidade;
+	
 	public Endereco() {
 	}
 
-	public Endereco(String logradouro, String numero, String complemento, String bairro, String cep, Cliente cliente,
-			Cidade cidade) {
+	public Endereco(Integer id, String logradouro, String numero, String complemento, String bairro, String cep,
+			Cliente cliente, Cidade cidade) {
 		super();
+		this.id = id;
 		this.logradouro = logradouro;
 		this.numero = numero;
 		this.complemento = complemento;
 		this.bairro = bairro;
 		this.cep = cep;
 		this.cliente = cliente;
-		this.cidade = cidade;
+		this.setCidade(cidade);
 	}
 
-	public Cidade getCidade() {
-		return cidade;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setCidade(Cidade cidade) {
-		this.cidade = cidade;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getLogradouro() {
@@ -105,8 +105,12 @@ public class Endereco implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public Integer getId() {
-		return id;
+	public Cidade getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
 	}
 
 	@Override
@@ -133,5 +137,7 @@ public class Endereco implements Serializable {
 			return false;
 		return true;
 	}
-
+	
+	
+	
 }

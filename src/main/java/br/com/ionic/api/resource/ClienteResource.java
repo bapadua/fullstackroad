@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.ionic.api.domain.Cliente;	
+import br.com.ionic.api.domain.Cliente;
 import br.com.ionic.api.domain.dto.ClienteDTO;
 import br.com.ionic.api.domain.dto.ClienteNewDTO;
 import br.com.ionic.api.service.ClienteService;

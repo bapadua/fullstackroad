@@ -11,30 +11,33 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import br.com.ionic.api.domain.enums.EstadoPagamento;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
-public abstract class Pagamento implements Serializable{
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
+public abstract class Pagamento implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	private Integer id;
-	private Integer pagamento;
-	
+	private Integer estado;
+
 	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name="pedido_id")
 	@MapsId
 	private Pedido pedido;
 	
-	public Pagamento() {}
+	public Pagamento() {
+	}
 
-	public Pagamento(Integer id, EstadoPagamento pagamento, Pedido pedido) {
+	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 		super();
 		this.id = id;
-		this.pagamento = (pagamento == null) ? null : pagamento.getCod();
+		this.estado = (estado==null) ? null : estado.getCod();
 		this.pedido = pedido;
 	}
 
@@ -46,12 +49,12 @@ public abstract class Pagamento implements Serializable{
 		this.id = id;
 	}
 
-	public EstadoPagamento getPagamento() {
-		return EstadoPagamento.toEnum(this.pagamento);
+	public EstadoPagamento getEstado() {
+		return EstadoPagamento.toEnum(estado);
 	}
 
-	public void setPagamento(EstadoPagamento pagamento) {
-		this.pagamento = pagamento.getCod();
+	public void setEstado(EstadoPagamento estado) {
+		this.estado = estado.getCod();
 	}
 
 	public Pedido getPedido() {
@@ -86,5 +89,7 @@ public abstract class Pagamento implements Serializable{
 			return false;
 		return true;
 	}
+	
+	
 	
 }
