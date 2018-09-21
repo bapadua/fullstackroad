@@ -18,7 +18,6 @@ import br.com.ionic.api.domain.Cliente;
 import br.com.ionic.api.domain.Endereco;
 import br.com.ionic.api.domain.dto.ClienteDTO;
 import br.com.ionic.api.domain.dto.ClienteNewDTO;
-import br.com.ionic.api.domain.enums.Perfil;
 import br.com.ionic.api.repository.ClienteRepository;
 import br.com.ionic.api.repository.EnderecoRepository;
 import br.com.ionic.api.service.exception.ObjectNotFoundException;
