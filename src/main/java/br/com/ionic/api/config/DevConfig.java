@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import br.com.ionic.api.service.DbService;
+import br.com.ionic.api.service.SmtpEmailService;
 
 @Configuration
 @Profile("dev")
@@ -25,5 +26,10 @@ public class DevConfig {
 		}
 		dbService.instantiateTestDatabase();
 		return true;
+	}
+	
+	@Bean
+	public SmtpEmailService emailService() {
+		return new SmtpEmailService();
 	}
 }
