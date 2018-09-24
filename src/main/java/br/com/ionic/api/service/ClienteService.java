@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.ionic.api.domain.Cidade;
@@ -26,9 +27,12 @@ import br.com.ionic.api.service.exception.ObjectNotFoundException;
 public class ClienteService {
 	@Autowired
 	private ClienteRepository repository;
-	
+
 	@Autowired
 	private EnderecoRepository enderecoRepo;
+
+	@Autowired
+	private BCryptPasswordEncoder BCencoder;
 
 	public Cliente find(Integer id) {
 		Optional<Cliente> obj = repository.findById(id);
@@ -75,22 +79,23 @@ public class ClienteService {
 	}
 
 	public Cliente fromDTO(@Valid ClienteNewDTO objDTO) {
-		
-		Cliente cli = new Cliente(null, objDTO.getNome(), objDTO.getEmail(), objDTO.getCpfOuCnpj(), null);
-		Cidade cid = new Cidade(objDTO.getCidadeId(),  null, null);
-		Endereco end = new Endereco(null, objDTO.getLogradouro(), objDTO.getNumero(),objDTO.getComplemento(),objDTO.getBairro(),objDTO.getCep(),cli,cid);
+
+		Cliente cli = new Cliente(null, objDTO.getNome(), objDTO.getEmail(), objDTO.getCpfOuCnpj(), null, BCencoder.encode(objDTO.getSenha()));
+		Cidade cid = new Cidade(objDTO.getCidadeId(), null, null);
+		Endereco end = new Endereco(null, objDTO.getLogradouro(), objDTO.getNumero(), objDTO.getComplemento(),
+				objDTO.getBairro(), objDTO.getCep(), cli, cid);
 		cli.getEnderecos().add(end);
 		cli.getTelefones().add(objDTO.getTelefone1());
-		if(objDTO.getTelefone2() != null)
+		if (objDTO.getTelefone2() != null)
 			cli.getTelefones().add(objDTO.getTelefone2());
-		if(objDTO.getTelefone3() != null)
+		if (objDTO.getTelefone3() != null)
 			cli.getTelefones().add(objDTO.getTelefone3());
-		
+
 		return cli;
 	}
-	
+
 	public Cliente fromDTO(@Valid ClienteDTO objDTO) {
-		return new Cliente(objDTO.getId(), objDTO.getNome(), objDTO.getEmail(), null, null);
+		return new Cliente(objDTO.getId(), objDTO.getNome(), objDTO.getEmail(), null, null, null);
 	}
 
 }
