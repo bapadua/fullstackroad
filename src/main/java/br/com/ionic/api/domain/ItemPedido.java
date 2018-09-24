@@ -1,8 +1,6 @@
 package br.com.ionic.api.domain;
 
 import java.io.Serializable;
-import java.text.NumberFormat;
-import java.util.Locale;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
