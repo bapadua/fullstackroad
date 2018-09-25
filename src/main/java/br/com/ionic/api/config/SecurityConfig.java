@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import br.com.ionic.api.security.JwtAuthenticationFilter;
+import br.com.ionic.api.security.JwtAuthorizationFilter;
 import br.com.ionic.api.security.JwtUtil;
 
 @Configuration
@@ -57,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.anyRequest()
 		.authenticated();
 		http.addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtUtil));
+		http.addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 	
