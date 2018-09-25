@@ -19,8 +19,11 @@ import br.com.ionic.api.domain.Cliente;
 import br.com.ionic.api.domain.Endereco;
 import br.com.ionic.api.domain.dto.ClienteDTO;
 import br.com.ionic.api.domain.dto.ClienteNewDTO;
+import br.com.ionic.api.domain.enums.Perfil;
 import br.com.ionic.api.repository.ClienteRepository;
 import br.com.ionic.api.repository.EnderecoRepository;
+import br.com.ionic.api.security.UserSS;
+import br.com.ionic.api.service.exception.AuthorizationException;
 import br.com.ionic.api.service.exception.ObjectNotFoundException;
 
 @Service
@@ -35,6 +38,11 @@ public class ClienteService {
 	private BCryptPasswordEncoder BCencoder;
 
 	public Cliente find(Integer id) {
+		UserSS user	= UserService.authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso Negado");
+		}
+		
 		Optional<Cliente> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado: " + id + ", Tipo: " + Cliente.class.getName()));

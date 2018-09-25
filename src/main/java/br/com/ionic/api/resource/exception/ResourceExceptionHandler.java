@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import br.com.ionic.api.service.exception.AuthorizationException;
 import br.com.ionic.api.service.exception.DataIntegrityException;
 import br.com.ionic.api.service.exception.ObjectNotFoundException;
 
@@ -40,5 +41,13 @@ public class ResourceExceptionHandler {
 			err.addError(x.getField(), x.getDefaultMessage());
 		}
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
+	}
+
+	@ExceptionHandler(AuthorizationException.class)
+	public ResponseEntity<StandardError> authorization(AuthorizationException e, HttpServletRequest request) {
+		StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.FORBIDDEN.value(),
+				"Forbidden", e.getMessage(), request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
 	}
 }
